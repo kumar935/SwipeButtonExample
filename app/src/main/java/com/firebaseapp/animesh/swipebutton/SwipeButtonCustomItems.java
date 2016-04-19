@@ -1,17 +1,12 @@
 package com.firebaseapp.animesh.swipebutton;
 
-import android.graphics.Color;
-
-/**
- * Created by animesh on 4/19/16.
- */
 public abstract class SwipeButtonCustomItems {
-    //These are the default values if we don't choose to set them:
+    //These are the default values if we don't choose to set them later:
     public int gradientColor1 = 0xFF333333;
     public int gradientColor2 = 0xFF666666;
-    public double gradientColor2Width = 0.8;
+    public int gradientColor2Width = 50;
     public int gradientColor3 = 0xFF888888;
-    public int swipePartitionWidth = 50;
+    public double actionConfirmDistanceFraction = 0.7;
     public String buttonPressText = ">>   SWIPE TO CONFIRM   >> ";
 
     public int getGradientColor1() {
@@ -32,11 +27,11 @@ public abstract class SwipeButtonCustomItems {
         return this;
     }
 
-    public double getGradientColor2Width() {
+    public int getGradientColor2Width() {
         return gradientColor2Width;
     }
 
-    public SwipeButtonCustomItems setGradientColor2Width(double gradientColor2Width) {
+    public SwipeButtonCustomItems setGradientColor2Width(int gradientColor2Width) {
         this.gradientColor2Width = gradientColor2Width;
         return this;
     }
@@ -50,12 +45,12 @@ public abstract class SwipeButtonCustomItems {
         return this;
     }
 
-    public int getSwipePartitionWidth() {
-        return swipePartitionWidth;
+    public double getActionConfirmDistanceFraction() {
+        return actionConfirmDistanceFraction;
     }
 
-    public SwipeButtonCustomItems setSwipePartitionWidth(int swipePartitionWidth) {
-        this.swipePartitionWidth = swipePartitionWidth;
+    public SwipeButtonCustomItems setActionConfirmDistanceFraction(double actionConfirmDistanceFraction) {
+        this.actionConfirmDistanceFraction = actionConfirmDistanceFraction;
         return this;
     }
 

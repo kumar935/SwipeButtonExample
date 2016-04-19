@@ -25,6 +25,9 @@ public class SwipeButton extends Button {
     private float x2Start;
     //whether the text currently on the button is the text shown while swiping or the original text
 
+    private SwipeButtonCustomItems swipeButtonCustomItems;
+    //in this instance of the class SwipeButtonCustomItems we can accept callbacks and other params like colors
+
     public SwipeButton(Context context) {
         super(context);
     }
@@ -35,6 +38,11 @@ public class SwipeButton extends Button {
 
     public SwipeButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    public void setSwipeButtonCustomItems(SwipeButtonCustomItems swipeButtonCustomItems) {
+        //setter for swipeButtonCustomItems
+        this.swipeButtonCustomItems = swipeButtonCustomItems;
     }
 
     @Override
@@ -51,9 +59,11 @@ public class SwipeButton extends Button {
                 confirmThresholdCrossed = false;
 
                 if (!swipeTextShown) {
-                    this.setText(">> SWIPE TO CONFIRM >>");
+                    this.setText(swipeButtonCustomItems.getButtonPressText());
                     swipeTextShown = true;
                 }
+
+                swipeButtonCustomItems.onButtonPress();
                 break;
             }
             case MotionEvent.ACTION_MOVE: {
@@ -74,12 +84,12 @@ public class SwipeButton extends Button {
 
                     ShapeDrawable mDrawable = new ShapeDrawable(new RectShape());
 
-                    int gradientColor1 = 0xFF333333;
-                    int gradientColor2 = 0xFF666666;
-                    int gradientColor2Width = 50;
-                    int gradientColor3 = 0xFF888888;
-                    double actionConfirmDistanceFraction = 0.6;
-                    //We'll get to how to be able to customize these values for each instance of the button
+                    int gradientColor1 = swipeButtonCustomItems.getGradientColor1();
+                    int gradientColor2 = swipeButtonCustomItems.getGradientColor2();
+                    int gradientColor2Width = swipeButtonCustomItems.getGradientColor2Width();
+                    int gradientColor3 = swipeButtonCustomItems.getGradientColor3();
+                    double actionConfirmDistanceFraction = swipeButtonCustomItems.getActionConfirmDistanceFraction();
+                    //Note that above we replaced the hard coded values by those from the SwipeButtonCustomItems instance.
 
 
                     Shader shader = new LinearGradient(x2, 0, x2 - gradientColor2Width, 0,
@@ -92,13 +102,15 @@ public class SwipeButton extends Button {
 
 
                     if (swipeTextShown == false) {
-                        this.setText(">> SWIPE TO CONFIRM >> ");
+                        this.setText(swipeButtonCustomItems.getButtonPressText());
                         //change text while swiping
                         swipeTextShown = true;
                     }
 
                     if ((x2-x2Start) > (this.getWidth() * actionConfirmDistanceFraction)) {
-                        Log.d("CONFIRMATION", "Action Confirmed! Read on to find how to get your desired callback here");
+                        Log.d("CONFIRMATION", "Action Confirmed!");
+                        //Note that below we inserted the desired callback from the SwipeButtonCustomItem instance.
+                        swipeButtonCustomItems.onSwipeConfirm();
                         //confirm action when swiped upto the desired distance
                         confirmThresholdCrossed = true;
                     }
@@ -111,7 +123,6 @@ public class SwipeButton extends Button {
                 //when the user releases touch then revert back the text
                 swiping = false;
                 float x2 = event.getX();
-                double actionConfirmDistanceFraction = 0.6;
                 int buttonColor = 0xFF888888;
                 String actionConfirmText = "Action Confirmed";
 
@@ -120,9 +131,10 @@ public class SwipeButton extends Button {
                 swipeTextShown =  false;
 
 
-                if ((x2-x2Start) <= (this.getWidth() * actionConfirmDistanceFraction)) {
+                if ((x2-x2Start) <= (this.getWidth() * swipeButtonCustomItems.getActionConfirmDistanceFraction())) {
                     Log.d("CONFIRMATION", "Action not confirmed");
                     this.setText(originalButtonText);
+                    swipeButtonCustomItems.onSwipeCancel();
                     confirmThresholdCrossed = false;
 
                 } else {

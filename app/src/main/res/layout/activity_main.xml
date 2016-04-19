@@ -17,6 +17,7 @@
         />
 
     <com.firebaseapp.animesh.swipebutton.SwipeButton
+        android:id="@+id/my_swipe_button"
         android:layout_width="400dp"
         android:layout_height="50dp"
         android:text="Button"
