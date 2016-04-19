@@ -123,8 +123,9 @@ public class SwipeButton extends Button {
                 //when the user releases touch then revert back the text
                 swiping = false;
                 float x2 = event.getX();
-                int buttonColor = 0xFF888888;
-                String actionConfirmText = "Action Confirmed";
+                int buttonColor = swipeButtonCustomItems.getPostConfirmationColor();
+                String actionConfirmText = swipeButtonCustomItems.getActionConfirmText() == null ? this.originalButtonText : swipeButtonCustomItems.getActionConfirmText();
+                //if you choose to not set the confirmation text, it will set to the original button text;
 
                 this.setBackgroundDrawable(null);
                 this.setBackgroundColor(buttonColor);

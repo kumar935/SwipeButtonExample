@@ -25,7 +25,9 @@ public class MainActivity extends AppCompatActivity {
                 .setGradientColor2(0xFF666666)
                 .setGradientColor2Width(60)
                 .setGradientColor3(0xFF333333)
-                .setActionConfirmDistanceFraction(0.7);
+                .setPostConfirmationColor(0xFF888888)
+                .setActionConfirmDistanceFraction(0.7)
+                .setActionConfirmText("Action Confirmed");
 
         if (mSwipeButton != null) {
             mSwipeButton.setSwipeButtonCustomItems(swipeButtonSettings);
